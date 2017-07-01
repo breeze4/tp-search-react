@@ -1,0 +1,73 @@
+{
+  "results": [
+    {
+      "key": "workbook",
+      "workbook": {
+        "name": "James Wade",
+        "searchable": true,
+        "totalNumberOfFollowers": 0,
+        "hideNewWorkbooks": false,
+        "visibleWorkbookCount": 1,
+        "lastPublishDate": 1463011085626,
+        "totalNumberOfFollowing": 5,
+        "profileName": "james.wade",
+        "workbooks": [
+          {
+            "category": null,
+            "numberOfFavorites": 0,
+            "authorProfileName": "james.wade",
+            "ownerId": 251482,
+            "workbookRepoUrl": "2014ENKARainfall",
+            "firstPublishDate": 1463010352065,
+            "title": "2014 ENKA Rainfall",
+            "description": "2014 ENKA Rainfall",
+            "lastPublishDate": 1463011085626,
+            "permalink": null,
+            "viewCount": 33,
+            "showTabs": false,
+            "showToolbar": true,
+            "showByline": true,
+            "showShareOptions": true,
+            "showWatermark": true,
+            "allowDataAccess": true,
+            "defaultViewName": "Sheet 1",
+            "defaultViewRepoUrl": "2014ENKARainfall/sheets/Sheet1",
+            "size": 44315,
+            "revision": "1.3",
+            "extractInfo": null,
+            "lastUpdateDate": 1463011087283,
+            "warnDataAccess": false,
+            "setLastUpdateDate": true,
+            "setFirstPublishDate": true,
+            "setShowWatermark": true,
+            "setAllowDataAccess": true,
+            "setDefaultViewName": true,
+            "setLastPublishDate": true,
+            "setWorkbookRepoUrl": true,
+            "setShowShareOptions": true,
+            "setDefaultViewRepoUrl": true,
+            "setWarnDataAccess": false,
+            "setViewCount": true,
+            "setDescription": true,
+            "setShowTabs": false,
+            "setSize": true,
+            "setShowByline": true,
+            "setExtractInfo": false,
+            "setRevision": true,
+            "setOwnerId": true,
+            "setShowToolbar": true,
+            "setTitle": true,
+            "setPermalink": false,
+            "showInProfile": true
+          }
+        ],
+        "vizCount": 1,
+        "gravatarHash": "4fab38b99b616b26cd5d2f6d296433ad",
+        "websites": []
+      },
+      "workbookMeta": null,
+      "author": null,
+      "website": null
+    }
+  ]
+}

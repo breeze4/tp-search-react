@@ -89,3 +89,14 @@ input[type="search"]::-webkit-search-cancel-button {
   color: #323232;
   font-weight: 600;
 }
+
+.search-results-loading {
+  display: flex;
+  justify-content: center;
+}
+
+.search-results-loading-icon {
+  height: 50px;
+  width: 50px;
+  background: url(./loading-spinner.svg) no-repeat;
+}

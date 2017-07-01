@@ -1,29 +1,9 @@
 import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import SearchPage, { SEARCH_TABS } from './SearchPage';
+import SearchApiService from './api/SearchApiService';
 
 import './Search.css';
-
-const SEARCH_TABS = {
-  all: {
-    name: 'All results',
-    facet: 'all'
-  },
-  vizzes: {
-    name: 'Vizzes',
-    facet: 'vizzes'
-  },
-  authors: {
-    name: 'Authors',
-    facet: 'authors'
-  },
-  blogs: {
-    name: 'Blogs',
-    facet: 'blogs'
-  },
-  resources: {
-    name: 'Resources',
-    facet: 'resources'
-  }
-};
 
 class Search extends Component {
 
@@ -31,54 +11,91 @@ class Search extends Component {
     super(props);
 
     this.state = {
-      activeTab: 'all'
+      // activeTab: 'all',
+      // searchText: '',
+      loading: false,
+      results: [{
+        key: null,
+        workbook: {},
+        workbookMeta: {},
+        author: null,
+        website: null
+      }]
     }
   }
 
-  onSelectTab(event, tab) {
+  componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps', nextProps);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    console.log('componentWillUpdate', nextProps, nextState);
+    // this.doSearch();
+  }
+
+  doSearch() {
+    const { activeTab, searchText } = this.state;
+    if (activeTab && searchText) {
+      this.setState({ loading: true });
+      SearchApiService.search(activeTab, searchText).then((data) => {
+        this.setState({ loading: false, results: data.results });
+      });
+    }
+  }
+
+  onSelectTab(tab) {
     console.log(`selecting tab: ${tab}`);
     this.setState({
       activeTab: tab
     });
+    this.doSearch();
   }
 
   render() {
+    const SearchRoute = ({ match, history }) => {
+      const activeTab = match.params.activeTab || 'all';
+      const searchText = this.state.searchText || match.params.searchText;
+      return (
+        <SearchPage
+          onInputChange={(searchText) => this.setState({ searchText })}
+          onSelectTab={this.onSelectTab.bind(this)}
+          onSearch={(event) => {
+            event.preventDefault();
+            console.log(`adding to history: /${activeTab}/${searchText}`);
+            if (this.state.searchText) history.push(`/${activeTab}/${searchText}`);
+          }}
+          activeTab={activeTab}
+          searchText={searchText}>
+          {this.renderResults()}
+        </SearchPage >
+      );
+    };
     return (
-      <div className="search-page">
-        <div className="search-page-upper">
-          <div className="search-page-title">
-            <h1>Search</h1>
-          </div>
-          <form className="search-form">
-            <div className="search-input-container">
-              <input className="search-input" type="search" size="40" maxLength="255" />
-              <button className="search-submit" type="submit" value="Search">
-                <i className="fa fa-search"></i>
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="search-page-lower">
-          <section className="search-tab-container">
-            <div className="search-tab-list">
-              {this.renderTabs()}
-            </div>
-          </section>
-        </div>
-      </div>
+      <Route path="/:activeTab?/:searchText?" render={SearchRoute} />
     );
   }
 
-  renderTabs() {
-    return Object.keys(SEARCH_TABS).map((key) => {
-      const tab = SEARCH_TABS[key];
-      const active = this.state.activeTab === tab.facet;
-      return (<div key={tab.facet} className={`search-tab ${active ? 'active' : ''}`} onClick={(event) => this.onSelectTab(event, tab.facet)} >
-        <a href="#">
-          <span>{tab.name}</span>
-        </a>
-      </div>);
-    })
+  renderResults() {
+    const { loading, results } = this.state;
+    const loadingIndicator = loading ? (
+      <div className="search-results-loading" >
+        <div className="search-results-loading-icon">
+        </div>
+      </div>
+    ) : null;
+
+    const resultsCount = !loading ? (
+      <header className="search-results-header">
+        {results && results.length ? `${results.length} results` : null}
+      </header>
+    ) : null;
+
+    return (
+      <section className="search-results-container">
+        {loadingIndicator}
+        {resultsCount}
+      </section>
+    );
   }
 }
 
