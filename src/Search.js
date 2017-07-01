@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-import SearchPage, { SEARCH_TABS } from './SearchPage';
+import SearchPage from './SearchPage';
 import SearchApiService from './api/SearchApiService';
-
-import './Search.css';
 
 class Search extends Component {
 
   constructor(props) {
     super(props);
 
+    const { match, history } = props;
+    this.history = history;
+
+    const activeTab = match.params.activeTab || 'all';
+    const searchText = match.params.searchText || '';
+
     this.state = {
-      // activeTab: 'all',
-      // searchText: '',
+      activeTab: activeTab,
+      searchText: searchText,
       loading: false,
       results: [{
         key: null,
@@ -21,16 +24,17 @@ class Search extends Component {
         author: null,
         website: null
       }]
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps', nextProps);
+    this.doSearch();
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    console.log('componentWillUpdate', nextProps, nextState);
-    // this.doSearch();
+  componentDidMount() {
+    console.log('componentDidMount', this.props, this.state);
+    this.doSearch();
   }
 
   doSearch() {
@@ -48,53 +52,25 @@ class Search extends Component {
     this.setState({
       activeTab: tab
     });
-    this.doSearch();
   }
 
   render() {
-    const SearchRoute = ({ match, history }) => {
-      const activeTab = match.params.activeTab || 'all';
-      const searchText = this.state.searchText || match.params.searchText;
-      return (
-        <SearchPage
-          onInputChange={(searchText) => this.setState({ searchText })}
-          onSelectTab={this.onSelectTab.bind(this)}
-          onSearch={(event) => {
-            event.preventDefault();
-            console.log(`adding to history: /${activeTab}/${searchText}`);
-            if (this.state.searchText) history.push(`/${activeTab}/${searchText}`);
-          }}
-          activeTab={activeTab}
-          searchText={searchText}>
-          {this.renderResults()}
-        </SearchPage >
-      );
-    };
-    return (
-      <Route path="/:activeTab?/:searchText?" render={SearchRoute} />
-    );
-  }
-
-  renderResults() {
-    const { loading, results } = this.state;
-    const loadingIndicator = loading ? (
-      <div className="search-results-loading" >
-        <div className="search-results-loading-icon">
-        </div>
-      </div>
-    ) : null;
-
-    const resultsCount = !loading ? (
-      <header className="search-results-header">
-        {results && results.length ? `${results.length} results` : null}
-      </header>
-    ) : null;
+    const { activeTab, searchText, loading, results } = this.state;
 
     return (
-      <section className="search-results-container">
-        {loadingIndicator}
-        {resultsCount}
-      </section>
+      <SearchPage
+        onInputChange={(event) => this.setState({ searchText: event.target.value })}
+        onSelectTab={this.onSelectTab.bind(this)}
+        onSearch={(event) => {
+          event.preventDefault();
+          console.log(`adding to history: /${activeTab}/${searchText}`);
+          if (this.state.searchText) this.history.push(`/${activeTab}/${searchText}`);
+        }}
+        activeTab={activeTab}
+        searchText={searchText}
+        results={results}
+        loading={loading}>
+      </SearchPage >
     );
   }
 }
