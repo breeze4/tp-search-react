@@ -19,6 +19,11 @@ class Search extends Component {
       loading: false,
       results: []
     };
+
+    this.searchTimeout = null;
+
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onSelectTab = this.onSelectTab.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,6 +46,15 @@ class Search extends Component {
     }
   }
 
+  onInputChange(event) {
+    this.setState({ loading: true, searchText: event.target.value });
+
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.doSearch();
+    }, 1000);
+  }
+
   onSelectTab(tab) {
     console.log(`selecting tab: ${tab}`);
     this.setState({
@@ -53,8 +67,8 @@ class Search extends Component {
 
     return (
       <SearchPage
-        onInputChange={(event) => this.setState({ searchText: event.target.value })}
-        onSelectTab={this.onSelectTab.bind(this)}
+        onInputChange={this.onInputChange}
+        onSelectTab={this.onSelectTab}
         onSearch={(event) => {
           event.preventDefault();
           console.log(`adding to history: /${activeTab}/${searchText}`);
