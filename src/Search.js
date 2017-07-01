@@ -17,13 +17,7 @@ class Search extends Component {
       activeTab: activeTab,
       searchText: searchText,
       loading: false,
-      results: [{
-        key: null,
-        workbook: {},
-        workbookMeta: {},
-        author: null,
-        website: null
-      }]
+      results: []
     };
   }
 

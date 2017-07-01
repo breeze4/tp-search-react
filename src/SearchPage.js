@@ -99,38 +99,9 @@ const renderResults = ({ loading, results }) => {
 
   const resultsList = !loading ? (
     <ol className="search-results-list">
-      {results.map((result, index) => {
+      {results.map((result) => {
         const { key } = result; // which kind of result it is
-        let resultItem = null;
-        switch (key) {
-          case 'workbook': {
-            const { defaultViewRepoUrl } = result.workbook;
-            const { description, title, authorName, profileName } = result.workbookMeta;
-            const resultTitle = `${title} - ${authorName}`;
-            const thumbnailUrl = getVizThumbUrl(defaultViewRepoUrl);
-            const link = `/profile/${profileName}`;
-            resultItem = renderResultItem(resultTitle, thumbnailUrl, link, description);
-            break;
-          }
-          case 'author': {
-            const { name, profileName, avatarUrl, gravatarHash, bio } = result.author;
-            const title = `${name} - Profile`;
-            const thumbnailUrl = avatarUrl;
-            const link = `/profile/${profileName}`;
-            const description = bio;
-            resultItem = renderResultItem(title, thumbnailUrl, link, description);
-            break;
-          }
-          case 'webpage': {
-            resultItem = (
-              <div>webpage</div>
-            );
-            break;
-          }
-          default:
-            break;
-        }
-        return resultItem;
+        return key ? resultRenderers[key](result) : null;
       })}
     </ol>
   ) : null;
@@ -142,6 +113,28 @@ const renderResults = ({ loading, results }) => {
       {resultsList}
     </section>
   );
+}
+
+const resultRenderers = {
+  workbook: (result) => {
+    const { defaultViewRepoUrl } = result.workbook;
+    const { description, title, authorName, profileName } = result.workbookMeta;
+    const resultTitle = `${title} - ${authorName}`;
+    const thumbnailUrl = getVizThumbUrl(defaultViewRepoUrl);
+    const link = `/profile/${profileName}`;
+    return renderResultItem(resultTitle, thumbnailUrl, link, description);
+  },
+  author: (result) => {
+    const { name, profileName, avatarUrl, gravatarHash, bio } = result.author;
+    const title = `${name} - Profile`;
+    const thumbnailUrl = avatarUrl;
+    const link = `/profile/${profileName}`;
+    const description = bio;
+    return renderResultItem(title, thumbnailUrl, link, description);
+  },
+  webpage: (result) => {
+    return (<div>webpage</div>);
+  }
 }
 
 const renderResultItem = (title, thumbnailUrl, link, description) => {
