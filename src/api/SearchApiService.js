@@ -8,7 +8,7 @@ const SearchApiService = {
     var deferred = new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve(STUB_DATA);
-      }, 500);
+      }, 0);
     });
 
     return deferred;
