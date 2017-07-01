@@ -1,0 +1,91 @@
+.search-page {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+}
+
+.search-page-lower {
+  background: #f4f4f4;
+  min-height: 750px;
+  padding-bottom: 36px;
+}
+
+.search-page-title {
+  padding-left: 24px;
+  text-align: left;
+}
+
+.search-form {
+  padding: 24;
+  text-align: center;
+  display: block;
+}
+
+.search-input-container {
+  display: inline;
+  position: relative;
+}
+
+.search-input {
+  font-size: 1.8em;
+  max-width: 100%;
+  padding: .1em;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.search-submit {
+  border: 0;
+  background: transparent;
+  padding-top: 4px;
+  font-size: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: -17px;
+  margin: 5px;
+}
+
+
+.search-tab-container {
+  margin-top: 24px;
+}
+
+.search-tab-list {
+  padding-left: 72px;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #bbb;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.search-tab-list ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-tab {
+  margin-right: 36px;
+  width: 80px;
+}
+
+.search-tab a {
+  display: block;
+  text-decoration: none;
+  color: #656565;
+  padding: 16px 0;
+}
+  
+ .search-tab.active > a {
+  color: #323232;
+  font-weight: 600;
+}
